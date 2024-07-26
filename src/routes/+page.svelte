@@ -30,11 +30,11 @@
 
 <div class="col">
   <section>
-    <h3>regjsparser</h3>
+    <h3>regjsparser @0.10.0</h3>
     <Renderer result={regjs(hiddenKeys)(pattern, flags)} />
   </section>
   <section>
-    <h3>@eslint-community/regexpp</h3>
+    <h3>@eslint-community/regexpp @4.11.0</h3>
     <Renderer result={regexpp(hiddenKeys)(pattern, flags)} />
     <small>Note: Cyclic refs are omitted.</small>
   </section>
