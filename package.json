@@ -24,6 +24,7 @@
   "type": "module",
   "dependencies": {
     "@eslint-community/regexpp": "^4.11.0",
+    "regexp-tree": "^0.1.27",
     "regjsparser": "^0.10.0"
   }
 }

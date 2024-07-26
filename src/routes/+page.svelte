@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { regjs, regexpp } from "$lib/parser";
+  import { regjs, regexpp, regexpTree } from "$lib/parser";
   import Renderer from "./renderer.svelte";
 
   let pattern = $state("");
@@ -38,6 +38,10 @@
     <Renderer result={regexpp(hiddenKeys)(pattern, flags)} />
     <small>Note: Cyclic refs are omitted.</small>
   </section>
+  <section>
+    <h3>regexp-tree @0.1.27</h3>
+    <Renderer result={regexpTree(hiddenKeys)(pattern, flags)} />
+  </section>
 </div>
 
 <style>
@@ -49,7 +53,7 @@
 
   .col {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 0.5rem;
   }
 </style>
