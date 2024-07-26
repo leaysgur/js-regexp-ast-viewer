@@ -7,6 +7,7 @@ const config = {
   kit: {
     adapter: adapter({
       pages: "docs",
+      fallback: "404.html",
     }),
     paths: {
       base: process.argv.includes("dev") ? "" : "/js-regexp-ast-viewer",
