@@ -6,6 +6,15 @@ type ParseFactory = (hiddenKeys: { range: boolean; raw: boolean }) => Parse;
 type Parse = (pattern: string, flags: string) => ParseResult;
 export type ParseResult = { ok: false; err: string } | { ok: true; ast: string };
 
+export const browser: ParseFactory = (_hiddenKeys) => (pattern, flags) => {
+  try {
+    new RegExp(pattern, flags);
+    return { ok: true, ast: "This is valid `RegExp." };
+  } catch (err) {
+    return { ok: false, err: (err as Error).message };
+  }
+};
+
 export const regjs: ParseFactory = (hiddenKeys) => (pattern, flags) => {
   try {
     return {

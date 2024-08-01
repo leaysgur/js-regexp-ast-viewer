@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { regjs, regexpp, regexpTree } from "$lib/parser";
+  import { browser, regjs, regexpp, regexpTree } from "$lib/parser";
   import Renderer from "./renderer.svelte";
 
   let pattern = $state("");
@@ -28,6 +28,10 @@
   </fieldset>
 </section>
 
+<section>
+  <h3>Browser @{navigator.userAgent}</h3>
+  <Renderer result={browser(hiddenKeys)(pattern, flags)} />
+</section>
 <div class="col">
   <section>
     <h3>regjsparser @0.10.0</h3>
