@@ -75,8 +75,10 @@ export const regexpTree: ParseFactory = (hiddenKeys) => (pattern, flags) => {
           allowGroupNameDuplicates: true,
         }).body,
         (key, value) => {
-          if (hiddenKeys.range && key === "loc") return undefined;
-          if (hiddenKeys.raw && key === "loc") return undefined;
+          if (hiddenKeys.range && hiddenKeys.raw && key === "loc") return undefined;
+          if (hiddenKeys.range && (key === "start" || key === "end")) return undefined;
+          if (hiddenKeys.raw && (key === "source" || key === "value" || key === "symbol"))
+            return undefined;
           return value;
         },
         2,
