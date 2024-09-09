@@ -20,8 +20,7 @@
     "svelte-check": "^4.0.1",
     "typescript": "^5.5.4",
     "vite": "^5.4.3",
-    "vite-plugin-wasm": "^3.3.0",
-    "vite-plugin-wasm-pack": "^0.1.12"
+    "vite-plugin-wasm": "^3.3.0"
   },
   "type": "module",
   "dependencies": {
