@@ -1,4 +1,4 @@
-import initWasm, { parsePattern } from "oxc_regular_expression_wasm";
+import initWasm, { parsePattern } from "../oxc_regular_expression_wasm/pkg";
 import regjsparser from "regjsparser";
 import { RegExpParser } from "@eslint-community/regexpp";
 import { parse as regexpTreeParse } from "regexp-tree";
