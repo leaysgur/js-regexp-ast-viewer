@@ -5,10 +5,10 @@
 * Serde serialization error
 * @param {string} source_text
 * @param {ParseOptions | undefined} [options]
-* @returns {Return}
+* @returns {ParseReturn}
 */
-export function parsePattern(source_text: string, options?: ParseOptions): Return;
-export interface Return {
+export function parsePattern(source_text: string, options?: ParseOptions): ParseReturn;
+export interface ParseReturn {
     ast: Pattern;
 }
 
@@ -185,7 +185,7 @@ export interface SourceType {
 
 /**
 */
-export class Return {
+export class ParseReturn {
   free(): void;
 /**
 */
@@ -196,14 +196,14 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
-  readonly __wbg_return_free: (a: number, b: number) => void;
-  readonly __wbg_get_return_ast: (a: number) => number;
-  readonly __wbg_set_return_ast: (a: number, b: number) => void;
+  readonly __wbg_parsereturn_free: (a: number, b: number) => void;
+  readonly __wbg_get_parsereturn_ast: (a: number) => number;
+  readonly __wbg_set_parsereturn_ast: (a: number, b: number) => void;
   readonly parsePattern: (a: number, b: number, c: number, d: number) => void;
-  readonly __wbindgen_export_0: (a: number, b: number) => number;
-  readonly __wbindgen_export_1: (a: number, b: number, c: number, d: number) => number;
+  readonly __wbindgen_malloc: (a: number, b: number) => number;
+  readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
-  readonly __wbindgen_export_2: (a: number) => void;
+  readonly __wbindgen_exn_store: (a: number) => void;
 }
 
 export type SyncInitInput = BufferSource | WebAssembly.Module;

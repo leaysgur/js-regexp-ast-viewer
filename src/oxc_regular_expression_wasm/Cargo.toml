@@ -1,0 +1,16 @@
+[package]
+name    = "oxc_regular_expression_wasm"
+version = "0.0.1"
+edition = "2021"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+oxc                    = { version = "0.27.0", features = ["serialize"] }
+oxc_regular_expression = "0.27.0"
+serde                  = { version = "1.0.206", features = ["derive"] }
+wasm-bindgen           = "0.2.92"
+serde-wasm-bindgen     = "0.6.5"
+tsify                  = "0.4.5"
