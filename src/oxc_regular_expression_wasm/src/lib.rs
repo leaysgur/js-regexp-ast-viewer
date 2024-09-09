@@ -34,25 +34,26 @@ pub fn parse_pattern(
     let allocator = Allocator::default();
     let serializer = serde_wasm_bindgen::Serializer::json_compatible();
 
-    let (unicode_mode, unicode_sets_mode) = match options {
-        Some(options) => {
-            (options.unicode_mode.unwrap_or(false), options.unicode_sets_mode.unwrap_or(false))
-        }
-        None => (false, false),
-    };
+    let (unicode_mode, unicode_sets_mode) = options.map_or((false, false), |options| {
+        (
+            options.unicode_mode.unwrap_or(false),
+            options.unicode_sets_mode.unwrap_or(false),
+        )
+    });
 
-    let result = PatternParser::new(
+    let ast = PatternParser::new(
         &allocator,
         source_text,
-        ParserOptions { span_offset: 0, unicode_mode, unicode_sets_mode },
-    )
-    .parse();
-
-    match result {
-        Ok(parsed) => match parsed.serialize(&serializer) {
-            Ok(ast) => Ok(ParseReturn { ast }),
-            Err(err) => Err(serde_wasm_bindgen::Error::new(err.to_string())),
+        ParserOptions {
+            span_offset: 0,
+            unicode_mode,
+            unicode_sets_mode,
         },
-        Err(err) => Err(serde_wasm_bindgen::Error::new(err.to_string())),
-    }
+    )
+    .parse()
+    .map_err(|err| serde_wasm_bindgen::Error::new(err.to_string()))?
+    .serialize(&serializer)
+    .map_err(|err| serde_wasm_bindgen::Error::new(err.to_string()))?;
+
+    Ok(ParseReturn { ast })
 }
