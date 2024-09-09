@@ -8,23 +8,9 @@
   let hiddenKeys = $state({ range: true, raw: true });
 </script>
 
-{#snippet result(result: ParseResult, meta: ParseMeta)}
-  <h2>
-    {meta.name}
-    <wbr />
-    <span>@{meta.version}</span>
-  </h2>
-
-  {#if result.ok}
-    <pre class="ok">{result.ast}</pre>
-  {:else}
-    <pre class="ng">{result.err}</pre>
-  {/if}
-{/snippet}
-
 <section>
   <fieldset>
-    <legend>RegExp</legend>
+    <legend>Input RegExp</legend>
     <div class="input">
       /<input type="text" bind:value={pattern} placeholder="Pattern" />/
       <input type="text" bind:value={flags} placeholder="Flags" />
@@ -67,6 +53,18 @@
   {/each}
 </div>
 
+{#snippet result(result: ParseResult, meta: ParseMeta)}
+  <h2>
+    {meta.name}<wbr /><span>@{meta.version}</span>
+  </h2>
+
+  {#if result.ok}
+    <pre class="ok">{result.ast}</pre>
+  {:else}
+    <pre class="ng">{result.err}</pre>
+  {/if}
+{/snippet}
+
 <style>
   .input {
     display: grid;
@@ -81,11 +79,11 @@
   }
 
   h2 {
-    font-size: 1rem;
+    font-size: 0.9rem;
     word-break: break-word;
 
     span {
-      font-size: 0.8rem;
+      font-size: 0.6rem;
     }
   }
 

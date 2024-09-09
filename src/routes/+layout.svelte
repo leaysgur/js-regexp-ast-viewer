@@ -3,8 +3,8 @@
   <a
     href="https://github.com/leaysgur/js-regexp-ast-viewer"
     target="_blank"
-    rel="noopener noreferrer"
-  >GitHub</a>
+    rel="noopener noreferrer">GitHub</a
+  >
 </header>
 
 <main>
@@ -18,6 +18,7 @@
     padding: 0;
     background-color: #123;
     color: #def;
+    accent-color: #0ff;
   }
   :global(a) {
     color: #0ff;
@@ -31,8 +32,8 @@
     padding-block-end: 0;
 
     h1 {
-      font-size: 1.2rem;
       margin: 0;
+      font-size: 1rem;
     }
   }
 
