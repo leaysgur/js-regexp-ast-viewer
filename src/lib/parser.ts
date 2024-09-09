@@ -5,9 +5,10 @@ import { parse as regexpTreeParse } from "regexp-tree";
 
 type ParseFactory = (hiddenKeys: { range: boolean; raw: boolean }) => Promise<{
   parse: Parse;
-  meta: { name: string; version: string; notes: string };
+  meta: ParseMeta;
 }>;
 type Parse = (pattern: string, flags: string) => ParseResult;
+export type ParseMeta = { name: string; version: string; notes: string };
 export type ParseResult = { ok: false; err: string } | { ok: true; ast: string };
 
 export const browser: ParseFactory = async (_hiddenKeys) => {
@@ -21,7 +22,7 @@ export const browser: ParseFactory = async (_hiddenKeys) => {
   };
 
   const meta = {
-    name: "Browser",
+    name: "Your browser",
     version: navigator.userAgent,
     notes: "",
   };

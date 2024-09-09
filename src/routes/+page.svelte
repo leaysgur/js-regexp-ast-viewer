@@ -1,12 +1,26 @@
 <script lang="ts">
   import { browser, regjs, regexpp, regexpTree, oxc } from "$lib/parser";
-  import Renderer from "./renderer.svelte";
+  import type { ParseResult, ParseMeta } from "$lib/parser";
 
   let pattern = $state("");
   let flags = $state("");
 
   let hiddenKeys = $state({ range: true, raw: true });
 </script>
+
+{#snippet result(result: ParseResult, meta: ParseMeta)}
+  <h2>
+    {meta.name}
+    <wbr />
+    <span>@{meta.version}</span>
+  </h2>
+
+  {#if result.ok}
+    <pre class="ok">{result.ast}</pre>
+  {:else}
+    <pre class="ng">{result.err}</pre>
+  {/if}
+{/snippet}
 
 <section>
   <fieldset>
@@ -32,8 +46,7 @@
   {#await browser(hiddenKeys)}
     <p>Loading...</p>
   {:then { parse, meta }}
-    <h2>{meta.name}<span>@{meta.version}</span></h2>
-    <Renderer result={parse(pattern, flags)} />
+    {@render result(parse(pattern, flags), meta)}
   {/await}
 </section>
 
@@ -43,11 +56,12 @@
       {#await factory(hiddenKeys)}
         <p>Loading...</p>
       {:then { parse, meta }}
-        <h2>{meta.name}<span>@{meta.version}</span></h2>
-        <Renderer result={parse(pattern, flags)} />
+        {@render result(parse(pattern, flags), meta)}
         {#if meta.notes !== ""}
           <small>NOTE: {meta.notes}</small>
         {/if}
+      {:catch err}
+        <p>Error: {String(err)}</p>
       {/await}
     </section>
   {/each}
@@ -68,9 +82,23 @@
 
   h2 {
     font-size: 1rem;
+    word-break: break-word;
 
     span {
       font-size: 0.8rem;
+    }
+  }
+
+  pre {
+    border: 1px solid transparent;
+
+    &.ok {
+      border-color: #0f0;
+      overflow-x: auto;
+    }
+    &.ng {
+      border-color: #f00;
+      white-space: wrap;
     }
   }
 </style>
