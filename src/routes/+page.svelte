@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { browser, regjs, regexpp, regexpTree } from "$lib/parser";
+  import { browser, regjs, regexpp, regexpTree, oxc } from "$lib/parser";
   import Renderer from "./renderer.svelte";
 
   let pattern = $state("");
@@ -11,7 +11,7 @@
 <section>
   <fieldset>
     <legend>RegExp</legend>
-    <div class="regexp">
+    <div class="input">
       /<input type="text" bind:value={pattern} placeholder="Pattern" />/
       <input type="text" bind:value={flags} placeholder="Flags" />
     </div>
@@ -29,27 +29,32 @@
 </section>
 
 <section>
-  <h3>Browser @{navigator.userAgent}</h3>
-  <Renderer result={browser(hiddenKeys)(pattern, flags)} />
+  {#await browser(hiddenKeys)}
+    <p>Loading...</p>
+  {:then { parse, meta }}
+    <h2>{meta.name}<span>@{meta.version}</span></h2>
+    <Renderer result={parse(pattern, flags)} />
+  {/await}
 </section>
+
 <div class="col">
-  <section>
-    <h3>regjsparser @0.10.0</h3>
-    <Renderer result={regjs(hiddenKeys)(pattern, flags)} />
-  </section>
-  <section>
-    <h3>@eslint-community/regexpp @4.11.0</h3>
-    <Renderer result={regexpp(hiddenKeys)(pattern, flags)} />
-    <small>Note: Cyclic refs are omitted.</small>
-  </section>
-  <section>
-    <h3>regexp-tree @0.1.27</h3>
-    <Renderer result={regexpTree(hiddenKeys)(pattern, flags)} />
-  </section>
+  {#each [oxc, regjs, regexpp, regexpTree] as factory}
+    <section>
+      {#await factory(hiddenKeys)}
+        <p>Loading...</p>
+      {:then { parse, meta }}
+        <h2>{meta.name}<span>@{meta.version}</span></h2>
+        <Renderer result={parse(pattern, flags)} />
+        {#if meta.notes !== ""}
+          <small>NOTE: {meta.notes}</small>
+        {/if}
+      {/await}
+    </section>
+  {/each}
 </div>
 
 <style>
-  .regexp {
+  .input {
     display: grid;
     grid-template-columns: 1ch 1fr 1ch 6ch;
     align-items: center;
@@ -57,7 +62,15 @@
 
   .col {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 0.5rem;
+  }
+
+  h2 {
+    font-size: 1rem;
+
+    span {
+      font-size: 0.8rem;
+    }
   }
 </style>

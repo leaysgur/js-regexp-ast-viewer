@@ -13,13 +13,13 @@
 <style>
   pre {
     border: 1px solid transparent;
-    overflow: auto;
 
     &.ok {
       border-color: #0f0;
     }
     &.ng {
       border-color: #f00;
+      white-space: wrap;
     }
   }
 </style>
