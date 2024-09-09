@@ -67,15 +67,15 @@ export const oxc: ParseFactory = async (hiddenKeys) => {
 
 export const regjs: ParseFactory = async (hiddenKeys) => {
   const parse: Parse = (pattern, flags) => {
-    const ast = regjsparser.parse(pattern, flags, {
-      lookbehind: true,
-      namedGroups: true,
-      unicodePropertyEscape: true,
-      unicodeSet: true,
-      modifiers: true,
-    });
-
     try {
+      const ast = regjsparser.parse(pattern, flags, {
+        lookbehind: true,
+        namedGroups: true,
+        unicodePropertyEscape: true,
+        unicodeSet: true,
+        modifiers: true,
+      });
+
       return {
         ok: true,
         ast: JSON.stringify(
