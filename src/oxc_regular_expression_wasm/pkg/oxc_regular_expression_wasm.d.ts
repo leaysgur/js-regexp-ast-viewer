@@ -71,6 +71,7 @@ export type CharacterClassContentsKind = "Union" | "Intersection" | "Subtraction
 export interface CharacterClass {
     span: Span;
     negative: boolean;
+    strings: boolean;
     kind: CharacterClassContentsKind;
     body: CharacterClassContents[];
 }
@@ -94,7 +95,7 @@ export interface CharacterClassEscape {
     kind: CharacterClassEscapeKind;
 }
 
-export type CharacterKind = "ControlLetter" | "HexadecimalEscape" | "Identifier" | "Null" | "Octal" | "SingleEscape" | "Symbol" | "UnicodeEscape";
+export type CharacterKind = "ControlLetter" | "HexadecimalEscape" | "Identifier" | "Null" | "Octal1" | "Octal2" | "Octal3" | "SingleEscape" | "Symbol" | "UnicodeEscape";
 
 export interface Character {
     span: Span;
@@ -162,6 +163,9 @@ export interface RegularExpression {
 
 
 export type Atom = string;
+
+
+
 export type CompactStr = string;
 
 
@@ -172,7 +176,7 @@ export interface Span {
 
 export type LanguageVariant = "standard" | "jsx";
 
-export type ModuleKind = "script" | "module";
+export type ModuleKind = "script" | "module" | "unambiguous";
 
 export type Language = "javascript" | "typescript" | "typescriptDefinition";
 
@@ -180,7 +184,6 @@ export interface SourceType {
     language: Language;
     moduleKind: ModuleKind;
     variant: LanguageVariant;
-    alwaysStrict: boolean;
 }
 
 /**
