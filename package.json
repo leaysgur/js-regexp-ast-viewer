@@ -10,22 +10,22 @@
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
   },
   "devDependencies": {
-    "@sveltejs/adapter-auto": "^3.2.4",
-    "@sveltejs/adapter-static": "^3.0.4",
-    "@sveltejs/kit": "^2.5.26",
+    "@sveltejs/adapter-auto": "^3.2.5",
+    "@sveltejs/adapter-static": "^3.0.5",
+    "@sveltejs/kit": "^2.6.3",
     "@sveltejs/vite-plugin-svelte": "^4.0.0-next.7",
     "prettier": "^3.3.3",
-    "prettier-plugin-svelte": "^3.2.6",
+    "prettier-plugin-svelte": "^3.2.7",
     "svelte": "^5.0.0-next.244",
-    "svelte-check": "^4.0.1",
-    "typescript": "^5.5.4",
-    "vite": "^5.4.3",
+    "svelte-check": "^4.0.4",
+    "typescript": "^5.6.2",
+    "vite": "^5.4.8",
     "vite-plugin-wasm": "^3.3.0"
   },
   "type": "module",
   "dependencies": {
-    "@eslint-community/regexpp": "^4.11.0",
+    "@eslint-community/regexpp": "^4.11.1",
     "regexp-tree": "^0.1.27",
-    "regjsparser": "^0.10.0"
+    "regjsparser": "^0.11.1"
   }
 }
