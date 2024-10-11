@@ -15,6 +15,7 @@ export const browser: ParseFactory = async (_hiddenKeys) => {
   const parse: Parse = (pattern, flags) => {
     try {
       new RegExp(pattern, flags);
+
       return { ok: true, ast: "This is valid `RegExp." };
     } catch (err) {
       return { ok: false, err: (err as Error).message };
@@ -35,10 +36,7 @@ export const oxc: ParseFactory = async (hiddenKeys) => {
 
   const parse: Parse = (pattern, flags) => {
     try {
-      const { ast } = parsePattern(pattern, {
-        unicodeMode: flags.includes("u") || flags.includes("v"),
-        unicodeSetsMode: flags.includes("v"),
-      });
+      const { ast } = parsePattern(pattern, flags);
 
       return {
         ok: true,
@@ -58,7 +56,7 @@ export const oxc: ParseFactory = async (hiddenKeys) => {
 
   const meta = {
     name: "oxc_regular_expression_wasm",
-    version: "0.30.5",
+    version: "0.31.0",
     notes: "",
   };
 
@@ -134,7 +132,7 @@ export const regexpp: ParseFactory = async (hiddenKeys) => {
   const meta = {
     name: "@eslint-community/regexpp",
     version: "4.11.1",
-    notes: "Cyclic references are removed",
+    notes: "Cyclic references are removed.",
   };
 
   return { parse, meta };

@@ -3,18 +3,13 @@
 /**
 * # Errors
 * Serde serialization error
-* @param {string} source_text
-* @param {ParseOptions | undefined} [options]
+* @param {string} pattern_text
+* @param {string} flags_text
 * @returns {ParseReturn}
 */
-export function parsePattern(source_text: string, options?: ParseOptions): ParseReturn;
+export function parsePattern(pattern_text: string, flags_text: string): ParseReturn;
 export interface ParseReturn {
     ast: Pattern;
-}
-
-export interface ParseOptions {
-    unicodeMode?: boolean;
-    unicodeSetsMode?: boolean;
 }
 
 export interface NamedReference {
@@ -143,24 +138,6 @@ export interface Pattern {
     body: Disjunction;
 }
 
-export interface Flags {
-    span: Span;
-    global: boolean;
-    ignore_case: boolean;
-    multiline: boolean;
-    unicode: boolean;
-    sticky: boolean;
-    dot_all: boolean;
-    has_indices: boolean;
-    unicode_sets: boolean;
-}
-
-export interface RegularExpression {
-    span: Span;
-    pattern: Pattern;
-    flags: Flags;
-}
-
 
 export type Atom = string;
 
@@ -202,11 +179,10 @@ export interface InitOutput {
   readonly __wbg_parsereturn_free: (a: number, b: number) => void;
   readonly __wbg_get_parsereturn_ast: (a: number) => number;
   readonly __wbg_set_parsereturn_ast: (a: number, b: number) => void;
-  readonly parsePattern: (a: number, b: number, c: number, d: number) => void;
+  readonly parsePattern: (a: number, b: number, c: number, d: number, e: number) => void;
+  readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
-  readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
-  readonly __wbindgen_exn_store: (a: number) => void;
 }
 
 export type SyncInitInput = BufferSource | WebAssembly.Module;
