@@ -1,1 +1,1 @@
-npx wasm-pack build --target web
+npx wasm-pack@latest build --target web

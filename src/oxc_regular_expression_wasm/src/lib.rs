@@ -2,7 +2,7 @@
 #![allow(non_snake_case)]
 
 use oxc::allocator::Allocator;
-use oxc_regular_expression::{Parser, ParserOptions};
+use oxc_regular_expression::{LiteralParser, Options};
 use serde::Serialize;
 use tsify::Tsify;
 use wasm_bindgen::prelude::*;
@@ -24,10 +24,11 @@ pub fn parse_pattern(
     let allocator = Allocator::default();
     let serializer = serde_wasm_bindgen::Serializer::json_compatible();
 
-    let ast = Parser::new(
+    let ast = LiteralParser::new(
         &allocator,
         pattern_text,
-        ParserOptions::default().with_flags(flags_text),
+        Some(flags_text),
+        Options::default(),
     )
     .parse()
     .map_err(|err| serde_wasm_bindgen::Error::new(err.to_string()))?

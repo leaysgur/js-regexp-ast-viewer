@@ -1,174 +1,169 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
-* # Errors
-* Serde serialization error
-* @param {string} pattern_text
-* @param {string} flags_text
-* @returns {ParseReturn}
-*/
+ * # Errors
+ * Serde serialization error
+ * @param {string} pattern_text
+ * @param {string} flags_text
+ * @returns {ParseReturn}
+ */
 export function parsePattern(pattern_text: string, flags_text: string): ParseReturn;
 export interface ParseReturn {
     ast: Pattern;
 }
 
-export interface NamedReference {
-    span: Span;
-    name: Atom;
-}
+export type Pattern = ({
+	type: 'Pattern';
+	body: Disjunction;
+}) & Span;
 
-export interface IndexedReference {
-    span: Span;
-    index: number;
-}
+export type Disjunction = ({
+	type: 'Disjunction';
+	body: Array<Alternative>;
+}) & Span;
 
-export interface ModifierFlags {
-    ignore_case: boolean;
-    sticky: boolean;
-    multiline: boolean;
-}
+export type Alternative = ({
+	type: 'Alternative';
+	body: Array<Term>;
+}) & Span;
 
-export interface IgnoreGroup {
-    span: Span;
-    enabling_modifiers: ModifierFlags | null;
-    disabling_modifiers: ModifierFlags | null;
-    body: Disjunction;
-}
+export type Term = BoundaryAssertion | LookAroundAssertion | Quantifier | Character | Dot | CharacterClassEscape | UnicodePropertyEscape | CharacterClass | CapturingGroup | IgnoreGroup | IndexedReference | NamedReference;
 
-export interface CapturingGroup {
-    span: Span;
-    name: Atom | null;
-    body: Disjunction;
-}
+export type BoundaryAssertion = ({
+	type: 'BoundaryAssertion';
+	span: Span;
+	kind: BoundaryAssertionKind;
+});
 
-export interface ClassString {
-    span: Span;
-    strings: boolean;
-    body: Character[];
-}
+export type BoundaryAssertionKind = 'start' | 'end' | 'boundary' | 'negativeBoundary';
 
-export interface ClassStringDisjunction {
-    span: Span;
-    strings: boolean;
-    body: ClassString[];
-}
+export type LookAroundAssertion = ({
+	type: 'LookAroundAssertion';
+	kind: LookAroundAssertionKind;
+	body: Disjunction;
+}) & Span;
 
-export interface CharacterClassRange {
-    span: Span;
-    min: Character;
-    max: Character;
-}
+export type LookAroundAssertionKind = 'lookahead' | 'negativeLookahead' | 'lookbehind' | 'negativeLookbehind';
 
-export type CharacterClassContents = { CharacterClassRange: CharacterClassRange } | { CharacterClassEscape: CharacterClassEscape } | { UnicodePropertyEscape: UnicodePropertyEscape } | { Character: Character } | { NestedCharacterClass: CharacterClass } | { ClassStringDisjunction: ClassStringDisjunction };
+export type Quantifier = ({
+	type: 'Quantifier';
+	min: number;
+	max: (number) | null;
+	greedy: boolean;
+	body: Term;
+}) & Span;
 
-export type CharacterClassContentsKind = "Union" | "Intersection" | "Subtraction";
+export type Character = ({
+	type: 'Character';
+	kind: CharacterKind;
+	value: number;
+}) & Span;
 
-export interface CharacterClass {
-    span: Span;
-    negative: boolean;
-    strings: boolean;
-    kind: CharacterClassContentsKind;
-    body: CharacterClassContents[];
-}
+export type CharacterKind = 'controlLetter' | 'hexadecimalEscape' | 'identifier' | 'null' | 'octal1' | 'octal2' | 'octal3' | 'singleEscape' | 'symbol' | 'unicodeEscape';
 
-export interface Dot {
-    span: Span;
-}
+export type CharacterClassEscape = ({
+	type: 'CharacterClassEscape';
+	kind: CharacterClassEscapeKind;
+}) & Span;
 
-export interface UnicodePropertyEscape {
-    span: Span;
-    negative: boolean;
-    strings: boolean;
-    name: Atom;
-    value: Atom | null;
-}
+export type CharacterClassEscapeKind = 'd' | 'negativeD' | 's' | 'negativeS' | 'w' | 'negativeW';
 
-export type CharacterClassEscapeKind = "D" | "NegativeD" | "S" | "NegativeS" | "W" | "NegativeW";
+export type UnicodePropertyEscape = ({
+	type: 'UnicodePropertyEscape';
+	negative: boolean;
+	strings: boolean;
+	name: string;
+	value: (string) | null;
+}) & Span;
 
-export interface CharacterClassEscape {
-    span: Span;
-    kind: CharacterClassEscapeKind;
-}
+export type Dot = ({
+	type: 'Dot';
+}) & Span;
 
-export type CharacterKind = "ControlLetter" | "HexadecimalEscape" | "Identifier" | "Null" | "Octal1" | "Octal2" | "Octal3" | "SingleEscape" | "Symbol" | "UnicodeEscape";
+export type CharacterClass = ({
+	type: 'CharacterClass';
+	negative: boolean;
+	strings: boolean;
+	kind: CharacterClassContentsKind;
+	body: Array<CharacterClassContents>;
+}) & Span;
 
-export interface Character {
-    span: Span;
-    kind: CharacterKind;
-    value: number;
-}
+export type CharacterClassContentsKind = 'union' | 'intersection' | 'subtraction';
 
-export interface Quantifier {
-    span: Span;
-    min: number;
-    max: number | null;
-    greedy: boolean;
-    body: Term;
-}
+export type CharacterClassContents = CharacterClassRange | CharacterClassEscape | UnicodePropertyEscape | Character | CharacterClass | ClassStringDisjunction;
 
-export type LookAroundAssertionKind = "Lookahead" | "NegativeLookahead" | "Lookbehind" | "NegativeLookbehind";
+export type CharacterClassRange = ({
+	type: 'CharacterClassRange';
+	min: Character;
+	max: Character;
+}) & Span;
 
-export interface LookAroundAssertion {
-    span: Span;
-    kind: LookAroundAssertionKind;
-    body: Disjunction;
-}
+export type ClassStringDisjunction = ({
+	type: 'ClassStringDisjunction';
+	strings: boolean;
+	body: Array<ClassString>;
+}) & Span;
 
-export type BoundaryAssertionKind = "Start" | "End" | "Boundary" | "NegativeBoundary";
+export type ClassString = ({
+	type: 'ClassString';
+	strings: boolean;
+	body: Array<Character>;
+}) & Span;
 
-export interface BoundaryAssertion {
-    span: Span;
-    kind: BoundaryAssertionKind;
-}
+export type CapturingGroup = ({
+	type: 'CapturingGroup';
+	name: (string) | null;
+	body: Disjunction;
+}) & Span;
 
-export type Term = { BoundaryAssertion: BoundaryAssertion } | { LookAroundAssertion: LookAroundAssertion } | { Quantifier: Quantifier } | { Character: Character } | { Dot: Dot } | { CharacterClassEscape: CharacterClassEscape } | { UnicodePropertyEscape: UnicodePropertyEscape } | { CharacterClass: CharacterClass } | { CapturingGroup: CapturingGroup } | { IgnoreGroup: IgnoreGroup } | { IndexedReference: IndexedReference } | { NamedReference: NamedReference };
+export type IgnoreGroup = ({
+	type: 'IgnoreGroup';
+	modifiers: (Modifiers) | null;
+	body: Disjunction;
+}) & Span;
 
-export interface Alternative {
-    span: Span;
-    body: Term[];
-}
+export type Modifiers = ({
+	type: 'Modifiers';
+	enabling: (Modifier) | null;
+	disabling: (Modifier) | null;
+}) & Span;
 
-export interface Disjunction {
-    span: Span;
-    body: Alternative[];
-}
+export type Modifier = ({
+	type: 'Modifier';
+	ignoreCase: boolean;
+	multiline: boolean;
+	sticky: boolean;
+});
 
-export interface Pattern {
-    span: Span;
-    body: Disjunction;
-}
+export type IndexedReference = ({
+	type: 'IndexedReference';
+	index: number;
+}) & Span;
 
+export type NamedReference = ({
+	type: 'NamedReference';
+	name: string;
+}) & Span;
 
-export type Atom = string;
+export type Span = ({
+	start: number;
+	end: number;
+});
 
+export type SourceType = ({
+	language: Language;
+	moduleKind: ModuleKind;
+	variant: LanguageVariant;
+});
 
+export type Language = 'javascript' | 'typescript' | 'typescriptDefinition';
 
-export type CompactStr = string;
+export type ModuleKind = 'script' | 'module' | 'unambiguous';
 
+export type LanguageVariant = 'standard' | 'jsx';
 
-export interface Span {
-    start: number;
-    end: number;
-}
-
-export type LanguageVariant = "standard" | "jsx";
-
-export type ModuleKind = "script" | "module" | "unambiguous";
-
-export type Language = "javascript" | "typescript" | "typescriptDefinition";
-
-export interface SourceType {
-    language: Language;
-    moduleKind: ModuleKind;
-    variant: LanguageVariant;
-}
-
-/**
-*/
 export class ParseReturn {
   free(): void;
-/**
-*/
   ast: any;
 }
 
@@ -179,10 +174,12 @@ export interface InitOutput {
   readonly __wbg_parsereturn_free: (a: number, b: number) => void;
   readonly __wbg_get_parsereturn_ast: (a: number) => number;
   readonly __wbg_set_parsereturn_ast: (a: number, b: number) => void;
-  readonly parsePattern: (a: number, b: number, c: number, d: number, e: number) => void;
-  readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
+  readonly parsePattern: (a: number, b: number, c: number, d: number) => Array;
+  readonly __wbindgen_export_0: WebAssembly.Table;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
+  readonly __externref_table_dealloc: (a: number) => void;
+  readonly __wbindgen_start: () => void;
 }
 
 export type SyncInitInput = BufferSource | WebAssembly.Module;
