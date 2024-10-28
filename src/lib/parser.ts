@@ -93,7 +93,7 @@ export const regjs: ParseFactory = async (hiddenKeys) => {
 
   const meta = {
     name: "regjsparser",
-    version: "0.11.1",
+    version: "0.11.2",
     notes: "",
   };
 
@@ -131,7 +131,7 @@ export const regexpp: ParseFactory = async (hiddenKeys) => {
 
   const meta = {
     name: "@eslint-community/regexpp",
-    version: "4.11.1",
+    version: "4.12.1",
     notes: "Cyclic references are removed.",
   };
 
