@@ -36,12 +36,12 @@ export const oxc: ParseFactory = async (hiddenKeys) => {
 
   const parse: Parse = (pattern, flags) => {
     try {
-      const { ast } = parsePattern(pattern, flags);
+      const { ast_json } = parsePattern(pattern, flags);
 
       return {
         ok: true,
         ast: JSON.stringify(
-          ast,
+          JSON.parse(ast_json),
           (key, value) => {
             if (hiddenKeys.range && (key === "start" || key === "end")) return undefined;
             return value;
@@ -55,8 +55,8 @@ export const oxc: ParseFactory = async (hiddenKeys) => {
   };
 
   const meta = {
-    name: "oxc_regular_expression_wasm",
-    version: "0.40.1",
+    name: "oxc_regular_expression(wasm)",
+    version: "0.52.0",
     notes: "",
   };
 

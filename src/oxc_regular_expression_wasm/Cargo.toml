@@ -8,8 +8,9 @@ publish = false
 crate-type = ["cdylib"]
 
 [dependencies]
-oxc                    = { version = "0.40.1", features = ["serialize"] }
-oxc_regular_expression = "0.40.1"
+oxc                    = { version = "0.52.0", features = ["serialize"] }
+oxc_estree             = "0.52.0"
+oxc_regular_expression = "0.52.0"
 serde                  = { version = "1.0.216", features = ["derive"] }
 wasm-bindgen           = "0.2.99"
 serde-wasm-bindgen     = "0.6.5"
