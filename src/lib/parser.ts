@@ -56,7 +56,7 @@ export const oxc: ParseFactory = async (hiddenKeys) => {
 
   const meta = {
     name: "oxc_regular_expression(wasm)",
-    version: "0.52.0",
+    version: "0.68.1",
     notes: "",
   };
 

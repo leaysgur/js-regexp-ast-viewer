@@ -2,7 +2,7 @@
 #![allow(non_snake_case)]
 
 use oxc::allocator::Allocator;
-use oxc_estree::{CompactSerializer, ESTree};
+use oxc_estree::{CompactJSSerializer, ESTree };
 use oxc_regular_expression::{LiteralParser, Options};
 use tsify::Tsify;
 use wasm_bindgen::prelude::*;
@@ -33,7 +33,7 @@ pub fn parse_pattern(
 
     // NOTE: This requires `JSON.parse()` from JS side,
     // but I'm not sure how to avoid it...
-    let mut serializer = CompactSerializer::new();
+    let mut serializer = CompactJSSerializer::new();
     ret.serialize(&mut serializer);
     let ast_json = serializer.into_string();
 
