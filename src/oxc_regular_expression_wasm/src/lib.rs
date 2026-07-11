@@ -1,41 +1,36 @@
-// Silence erroneous warnings from Rust Analyser for `#[derive(Tsify)]`
-#![allow(non_snake_case)]
-
-use oxc::allocator::Allocator;
-use oxc_estree::{CompactJSSerializer, ESTree };
+use oxc_allocator::Allocator;
 use oxc_regular_expression::{LiteralParser, Options};
-use tsify::Tsify;
 use wasm_bindgen::prelude::*;
 
+mod json;
+
 #[wasm_bindgen(getter_with_clone)]
-#[derive(Default, Tsify)]
+#[derive(Default)]
 pub struct ParseReturn {
     pub ast_json: String,
 }
 
 /// # Errors
-/// Serde serialization error
+/// Regular expression parse error
 #[wasm_bindgen(js_name = parsePattern)]
-pub fn parse_pattern(
-    pattern_text: &str,
-    flags_text: &str,
-) -> Result<ParseReturn, serde_wasm_bindgen::Error> {
+pub fn parse_pattern(pattern_text: &str, flags_text: &str) -> Result<ParseReturn, JsError> {
     let allocator = Allocator::default();
 
-    let ret = LiteralParser::new(
+    let pattern = LiteralParser::new(
         &allocator,
         pattern_text,
         Some(flags_text),
         Options::default(),
     )
     .parse()
-    .map_err(|err| serde_wasm_bindgen::Error::new(err.to_string()))?;
+    .map_err(|err| JsError::new(&err.to_string()))?;
 
+    // `oxc_regular_expression` no longer provides JSON(ESTree) serialization,
+    // so serialize the AST by hand, keeping the same shape as before.
     // NOTE: This requires `JSON.parse()` from JS side,
     // but I'm not sure how to avoid it...
-    let mut serializer = CompactJSSerializer::new();
-    ret.serialize(&mut serializer);
-    let ast_json = serializer.into_string();
+    let mut ast_json = String::new();
+    json::pattern(&mut ast_json, &pattern);
 
     Ok(ParseReturn { ast_json })
 }

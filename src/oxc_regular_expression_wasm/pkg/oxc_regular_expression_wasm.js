@@ -81,7 +81,7 @@ function takeFromExternrefTable0(idx) {
 }
 /**
  * # Errors
- * Serde serialization error
+ * Regular expression parse error
  * @param {string} pattern_text
  * @param {string} flags_text
  * @returns {ParseReturn}

@@ -3,6 +3,14 @@ import regjsparser from "regjsparser";
 import { RegExpParser } from "@eslint-community/regexpp";
 import { parse as regexpTreeParse } from "regexp-tree";
 
+import { version as regjsparserVersion } from "regjsparser/package.json";
+import { version as regexppVersion } from "@eslint-community/regexpp/package.json";
+import { version as regexpTreeVersion } from "regexp-tree/package.json";
+import oxcCargoToml from "../oxc_regular_expression_wasm/Cargo.toml?raw";
+
+const oxcVersion =
+  oxcCargoToml.match(/^oxc_regular_expression\s*=\s*"([^"]+)"/m)?.[1] ?? "unknown";
+
 type ParseFactory = (hiddenKeys: { range: boolean; raw: boolean }) => Promise<{
   parse: Parse;
   meta: ParseMeta;
@@ -56,7 +64,7 @@ export const oxc: ParseFactory = async (hiddenKeys) => {
 
   const meta = {
     name: "oxc_regular_expression(wasm)",
-    version: "0.68.1",
+    version: oxcVersion,
     notes: "",
   };
 
@@ -93,7 +101,7 @@ export const regjs: ParseFactory = async (hiddenKeys) => {
 
   const meta = {
     name: "regjsparser",
-    version: "0.12.0",
+    version: regjsparserVersion,
     notes: "",
   };
 
@@ -131,7 +139,7 @@ export const regexpp: ParseFactory = async (hiddenKeys) => {
 
   const meta = {
     name: "@eslint-community/regexpp",
-    version: "4.12.1",
+    version: regexppVersion,
     notes: "Cyclic references are removed.",
   };
 
@@ -167,7 +175,7 @@ export const regexpTree: ParseFactory = async (hiddenKeys) => {
 
   const meta = {
     name: "regexp-tree",
-    version: "0.1.27",
+    version: regexpTreeVersion,
     notes: "",
   };
 

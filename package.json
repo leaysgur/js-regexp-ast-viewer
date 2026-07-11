@@ -11,20 +11,20 @@
   },
   "devDependencies": {
     "@sveltejs/adapter-static": "^3.0.8",
-    "@sveltejs/kit": "^2.20.8",
-    "@sveltejs/vite-plugin-svelte": "^5.0.3",
-    "prettier": "^3.5.3",
-    "prettier-plugin-svelte": "^3.3.3",
-    "svelte": "^5.28.2",
-    "svelte-check": "^4.1.7",
+    "@sveltejs/kit": "^2.69.2",
+    "@sveltejs/vite-plugin-svelte": "^7.2.0",
+    "prettier": "^3.9.5",
+    "prettier-plugin-svelte": "^4.1.1",
+    "svelte": "^5.56.4",
+    "svelte-check": "^4.7.2",
     "typescript": "^5.8.3",
-    "vite": "^6.3.5",
-    "vite-plugin-wasm": "^3.4.1"
+    "vite": "^8.1.4",
+    "vite-plugin-wasm": "^3.6.0"
   },
   "type": "module",
   "dependencies": {
-    "@eslint-community/regexpp": "^4.12.1",
+    "@eslint-community/regexpp": "^4.12.2",
     "regexp-tree": "^0.1.27",
-    "regjsparser": "^0.12.0"
+    "regjsparser": "^0.13.2"
   }
 }
